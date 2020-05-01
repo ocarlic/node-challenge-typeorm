@@ -4,11 +4,14 @@ import TransactionsRepository from '../repositories/TransactionsRepository';
 import Category from '../models/Category';
 import AppError from '../errors/AppError';
 
+interface CategoryObject {
+  title: string;
+}
 export interface CreateTransactionServiceDTO {
   title: string;
   type: TransactionType;
   value: number;
-  category: string;
+  category: CategoryObject;
 }
 
 class CreateTransactionService {
@@ -37,7 +40,7 @@ class CreateTransactionService {
 
     // If chosen category does not exist, create and save it
     if (!chosenCategory) {
-      chosenCategory = categoryRepository.create({ title: category });
+      chosenCategory = categoryRepository.create({ title: category.title });
       await categoryRepository.save(chosenCategory);
     }
 
